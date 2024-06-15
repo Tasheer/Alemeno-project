@@ -1,23 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import Search from './components/Search';
+import HomeMainBar from './components/HomeMainBar';
+import Dashboard from './pages/Dashboard';
+import { fetchCourses } from './coursesSlice';
+import './index.css';
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCourses());
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+
+      <Router>
+
+        <div className='leftSideBbar'>
+          <Sidebar />
+        </div>
+
+        <div className='homeMainBar'>
+          <Routes>
+            <Route path='/' element={<HomeMainBar />} />
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Routes>
+        </div>
+
+        <div className='SearchSideBar'>
+          <Search />
+        </div>
+
+      </Router>
+
     </div>
   );
 }
